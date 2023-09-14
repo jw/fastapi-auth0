@@ -38,9 +38,9 @@ security_responses:       Dict = {**unauthenticated_response, **unauthorized_res
 
 
 class Auth0User(BaseModel):
-    id:                          str = Field(..., alias='sub')
-    permissions: Optional[List[str]]
-    email:             Optional[str] = Field(None, alias=f'{auth0_rule_namespace}/email')  # type: ignore [literal-required]
+    id: str = Field(..., alias='sub')
+    permissions: List[str] | None = None
+    email: str | None = Field(None, alias=f'{auth0_rule_namespace}/email')  # type: ignore [literal-required]
 
 
 class Auth0HTTPBearer(HTTPBearer):

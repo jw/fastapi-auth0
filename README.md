@@ -24,16 +24,19 @@ In order to utilize the interactive docs for the implicit flow, the callback url
 In order to logout and login with another user, it's necessary to manually call GET `https://{auth0_domain}/v2/logout`, becacause the Swagger UI logout button is not able to clear 3rd party session / cookies.
 
 # Example usage
+
 ```Python
 from fastapi import FastAPI, Depends, Security
-from fastapi_auth0 import Auth0, Auth0User
+from src import Auth0, Auth0User
 
 auth = Auth0(domain='your-tenant.auth0.com', api_audience='your-api-identifier', scopes={'read:blabla': ''})
 app = FastAPI()
 
+
 @app.get("/public")
 def get_public():
     return {"message": "Anonymous user"}
+
 
 @app.get("/secure", dependencies=[Depends(auth.implicit_scheme)])
 def get_secure(user: Auth0User = Security(auth.get_user, scopes=['read:blabla'])):
